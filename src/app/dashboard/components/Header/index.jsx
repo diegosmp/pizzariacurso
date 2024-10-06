@@ -22,7 +22,7 @@ export default function Header() {
     getNameApi()
   }, [])
   return (
-    <header className="flex w-full py-5 px-2 border-b border-zinc-300 justify-center">
+    <header className="flex w-full py-5 px-2 border-b border-zinc-300 justify-center fixed bg-white">
       <div className=" flex w-full max-w-7xl items-center justify-between">
         <p className="font-semibold">
           Olá, <span className="text-red-600">{name}</span>
