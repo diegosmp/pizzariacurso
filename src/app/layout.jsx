@@ -12,9 +12,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-br">
       <body
-        className={`${inter.className} antialiased flex flex-col h-screen items-center`}
+        className={`${inter.className} antialiased flex flex-col items-center selection:bg-red-300`}
       >
-        <main className="flex flex-col items-center h-screen">{children}</main>
+        <main className="flex flex-col items-center w-full">{children}</main>
       </body>
     </html>
   )
