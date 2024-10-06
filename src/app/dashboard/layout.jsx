@@ -8,9 +8,11 @@ export const metadata = {
 
 export default function DashboardLayout({ children }) {
   return (
-    <div className="flex flex-col h-screen w-full items-center">
+    <div className="flex flex-col items-center h-screen w-full">
       <Header />
-      <main className="flex flex-col items-center w-full">{children}</main>
+      <main className="flex flex-col items-center w-full h-full">
+        {children}
+      </main>
       <Footer />
     </div>
   )
