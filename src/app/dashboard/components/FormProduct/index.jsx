@@ -3,11 +3,40 @@ import { Plus } from "lucide-react"
 import Image from "next/image"
 import { useState, useEffect } from "react"
 import Button from "../Button"
+import { api } from "@/services/api"
+import { cookieClient } from "@/utils/cookieClient"
 
-export default function FormProduct() {
+export default function FormProduct({ categorys }) {
   const [isClient, setIsClient] = useState(false)
   const [cover, setCover] = useState()
   const [previewCover, setPreviewCover] = useState("")
+
+  async function handleRegisterProduct(formData) {
+    const categoryIndex = formData.get("category")
+    const name = formData.get("name")
+    const price = formData.get("price")
+    const description = formData.get("description")
+
+    const data = new FormData()
+
+    data.append("name", name)
+    data.append("price", price)
+    data.append("description", description)
+    data.append("category_id", categorys[Number(categoryIndex)].id)
+    data.append("file", cover)
+
+    const token = cookieClient()
+
+    console.log(token)
+
+    await api
+      .post("/product", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((err) => console.log(err))
+  }
 
   useEffect(() => {
     setIsClient(true)
@@ -30,7 +59,10 @@ export default function FormProduct() {
       <div className="w-full">
         <h2 className="text-red-600 text-2xl font-extrabold">Novo produtos</h2>
       </div>
-      <form className=" w-full flex flex-col gap-2">
+      <form
+        className=" w-full flex flex-col gap-2"
+        action={handleRegisterProduct}
+      >
         <label className="w-full h-72 relative  flex items-center justify-center cursor-pointer flex-col border border-red-600 rounded">
           <span className="opacity-80 transition-all hover:scale-110">
             <Plus size={30} color="#dc2626" />
@@ -56,17 +88,13 @@ export default function FormProduct() {
         </label>
         <select
           name="category"
-          className="border border-red-600 rounded text-sm px-2 h-8 outline-red-300 text-zinc-400 "
+          className="border border-red-600 rounded text-sm px-2 h-8 outline-red-300 "
         >
-          <option value={1} key={1}>
-            Selecione uma categoria
-          </option>
-          <option key={1} value={1}>
-            Pizzas
-          </option>
-          <option key={1} value={1}>
-            Massas
-          </option>
+          {categorys.map((category, index) => (
+            <option key={category.id} value={index}>
+              {category.name}
+            </option>
+          ))}
         </select>
         <input
           type="text"
