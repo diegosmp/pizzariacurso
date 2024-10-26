@@ -22,6 +22,8 @@ export default function Login() {
         secure: process.env.NODE_NEXT === "production",
       })
     } catch (error) {
+      console.log(error)
+
       return
     }
     redirect("/dashboard")
