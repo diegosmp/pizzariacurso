@@ -6,10 +6,8 @@ import Button from "../Button"
 import { api } from "@/services/api"
 import { cookieClient } from "@/utils/cookieClient"
 import { toast } from "sonner"
-import { useRouter } from "next/router"
 
 export default function FormProduct({ categorys }) {
-  const router = useRouter()
   const [isClient, setIsClient] = useState(false)
   const [cover, setCover] = useState()
   const [previewCover, setPreviewCover] = useState("")
@@ -43,8 +41,6 @@ export default function FormProduct({ categorys }) {
       })
 
     toast.success("Produto cadastrado com sucesso")
-
-    router.push("/dashboard")
   }
 
   useEffect(() => {
