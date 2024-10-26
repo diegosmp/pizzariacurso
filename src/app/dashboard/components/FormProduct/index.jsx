@@ -5,8 +5,11 @@ import { useState, useEffect } from "react"
 import Button from "../Button"
 import { api } from "@/services/api"
 import { cookieClient } from "@/utils/cookieClient"
+import { toast } from "sonner"
+import { useRouter } from "next/router"
 
 export default function FormProduct({ categorys }) {
+  const router = useRouter()
   const [isClient, setIsClient] = useState(false)
   const [cover, setCover] = useState()
   const [previewCover, setPreviewCover] = useState("")
@@ -27,15 +30,21 @@ export default function FormProduct({ categorys }) {
 
     const token = cookieClient()
 
-    console.log(token)
-
     await api
       .post("/product", data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err)
+
+        toast.warning("Falha ao cadastrar esse produto!")
+      })
+
+    toast.success("Produto cadastrado com sucesso")
+
+    router.push("/dashboard")
   }
 
   useEffect(() => {
@@ -46,7 +55,10 @@ export default function FormProduct({ categorys }) {
     if (ev.target.files && ev.target.files[0]) {
       const image = ev.target.files[0]
 
-      if (image.type !== "image/jpeg" && image.type !== "image/png") return
+      if (image.type !== "image/jpeg" && image.type !== "image/png") {
+        toast.warning("Formato proibido!")
+        return
+      }
 
       setCover(image)
       setPreviewCover(URL.createObjectURL(image))

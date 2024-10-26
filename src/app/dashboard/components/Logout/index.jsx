@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation"
 import { deleteCookie } from "cookies-next"
 import { LogOut } from "lucide-react"
+import { toast } from "sonner"
 
 export default function Logout() {
   const router = useRouter()
@@ -11,6 +12,8 @@ export default function Logout() {
     } catch (error) {
       return
     }
+    toast.success("Logout feito com sucesso!")
+
     router.replace("/")
   }
   return (
