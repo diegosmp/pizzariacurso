@@ -3,6 +3,8 @@ import Button from "../Button"
 import Input from "../Input"
 import { api } from "@/services/api"
 import { redirect } from "next/navigation"
+import { Suspense } from "react"
+import LoadingUser from "@/app/loading"
 
 export default function Signup() {
   const handleSubmitCreate = async (formData) => {
@@ -34,7 +36,9 @@ export default function Signup() {
           </Link>
         </span>
       </div>
-      <Button title="Cadastrar" />
+      <Suspense fallback={<LoadingUser />}>
+        {<Button title="Cadastrar" /> || <LoadingUser />}
+      </Suspense>
     </form>
   )
 }
